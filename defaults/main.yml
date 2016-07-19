@@ -1,1 +1,4 @@
 ---
+ubuntu_code_name: trusty
+docker_users: []
+docker_compose_version: 1.6.2
