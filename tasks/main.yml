@@ -19,6 +19,9 @@
     data: "{{ lookup('file', '../files/docker-apt-key') }}"
     state: present
 
+- name: gather facts to have access to ansible_distribution_release
+  setup:
+
 - name: add docker apt repository
   apt_repository:
     repo: deb https://apt.dockerproject.org/repo/ ubuntu-{{ansible_distribution_release}} main
