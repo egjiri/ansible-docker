@@ -1,0 +1,21 @@
+---
+- name: get the operating system name
+  command: uname -s
+  register: _operating_system_name
+  when: docker_compose_version is defined
+  changed_when: False
+
+- name: get the machine hardward name
+  command: uname -m
+  register: _machine_hardward_name
+  when: docker_compose_version is defined
+  changed_when: False
+
+- name: get docker compose
+  become: True
+  get_url:
+    url: https://github.com/docker/compose/releases/download/{{docker_compose_version}}/docker-compose-{{_operating_system_name.stdout}}-{{_machine_hardward_name.stdout}}
+    dest: /usr/local/bin/docker-compose
+    mode: 0755
+    force: True
+  when: docker_compose_version is defined
