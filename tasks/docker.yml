@@ -45,3 +45,9 @@
     append: True
   with_items: "{{docker_users}}"
   when: docker_users is defined
+
+- name: create the docker systemd directory
+  become: True
+  file:
+    path: /etc/systemd/system/docker.service.d
+    state: directory
