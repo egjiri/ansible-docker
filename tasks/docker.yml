@@ -25,6 +25,16 @@
     repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ansible_distribution_release}} stable
     update_cache: True
 
+- name: find available docker-ce versions
+  raw: apt-cache madison docker-ce | awk '{print $3}'
+  register: _docker_versions
+  changed_when: false
+
+- name: error out if the docker_version is not valid
+  fail:
+    msg: "The specified docker_version: '{{docker_version}}' is not valid! Allowed docker versions are [{{_docker_versions.stdout_lines | join(', ')}}]"
+  when: "{{docker_version not in _docker_versions.stdout_lines}}"
+
 - name: install docker engine
   become: True
   apt:
