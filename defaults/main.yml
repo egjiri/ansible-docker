@@ -1,4 +1,4 @@
 ---
 docker_version: 1.13.0-0~ubuntu-xenial
 docker_users: []
-docker_compose_version: 1.10.0
+docker_compose_version: ''
