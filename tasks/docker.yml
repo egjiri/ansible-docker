@@ -1,19 +1,11 @@
 ---
-- name: determine uname kurnel release
-  command: uname -r
-  register: _uname_kurnel_release
-  changed_when: False
-
 - name: install recommended extra packages
   become: True
   apt:
     name: "{{item}}"
     state: present
-    # install_recommends: True
   with_items:
   - curl
-  - linux-image-extra-{{_uname_kurnel_release.stdout}}
-  - linux-image-extra-virtual
   - apt-transport-https
   - ca-certificates
 
@@ -25,17 +17,18 @@
 
 - name: gather facts to have access to ansible_distribution_release
   setup:
+  when: ansible_distribution_release is undefined
 
 - name: add docker apt repository
   become: True
   apt_repository:
-    repo: deb https://apt.dockerproject.org/repo/ ubuntu-{{ansible_distribution_release}} main
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ansible_distribution_release}} stable
     update_cache: True
 
 - name: install docker engine
   become: True
   apt:
-    name: docker-engine={{docker_version}}
+    name: docker-ce={{docker_version}}
 
 - name: add {{item}} to docker group
   become: True
