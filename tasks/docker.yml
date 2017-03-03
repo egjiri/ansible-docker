@@ -35,7 +35,7 @@
     msg: "The specified docker_version: '{{docker_version}}' is not valid! Allowed docker versions are [{{_docker_versions.stdout_lines | join(', ')}}]"
   when: "{{docker_version not in _docker_versions.stdout_lines}}"
 
-- name: install docker engine
+- name: install docker comunity edition
   become: True
   apt:
     name: docker-ce={{docker_version}}
