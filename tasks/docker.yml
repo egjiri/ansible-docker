@@ -2,12 +2,13 @@
 - name: install recommended extra packages
   become: True
   apt:
-    name: "{{item}}"
-    state: present
-  with_items:
-  - curl
-  - apt-transport-https
-  - ca-certificates
+    name: "{{packages}}"
+  vars:
+    packages:
+    - curl
+    - apt-transport-https
+    - ca-certificates
+    - software-properties-common
 
 - name: add docker apt key
   become: True
